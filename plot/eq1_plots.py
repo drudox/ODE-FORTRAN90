@@ -16,8 +16,13 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
 #-----------------------------------------------------------------------------------------------------
 #a= np.fromfile('part.out',dtype=float ,count=-1 ,sep='')
-t_cn = np.loadtxt('../result/rungekutta/CrankNich_001.out',usecols=(0,) )
-u_cn = np.loadtxt('../result/rungekutta/CrankNich_001.out',usecols=(1,) )
+t_rkf = np.loadtxt('../result/rungekutta/RKFehlberg_001.out',usecols=(0,) )
+u_rkf = np.loadtxt('../result/rungekutta/RKFehlberg_001.out',usecols=(1,) )
+
+t_rk4 = np.loadtxt('../result/rungekutta/RK4_001.out',usecols=(0,) )
+u_rk4 = np.loadtxt('../result/rungekutta/RK4_001.out',usecols=(1,) )
+
+
 
 t_ab2 = np.loadtxt('../result/adams/AB2_001.out',usecols=(0,) )
 u_ab2 = np.loadtxt('../result/adams/AB2_001.out',usecols=(1,) )
@@ -80,16 +85,17 @@ ax.set_xlim(0,2)
 #plt.plot(t_me,u_me,'k',linewidth=1,linestyle='-.',label=r'Modified Euler')
 #plt.plot(t_lf,u_lf,'k',linewidth=1,linestyle='--',label=r'Leap Frog')
 
-plt.plot(t_am2,u_am2,'b',linewidth=2,label=r'Adams Moulton 2nd')
-plt.plot(real_t,real_y,'k',linewidth=2,label=r'Analitical Sol.')
-plt.plot(t_lf,u_lf,'g',linewidth=2,linestyle='-',label=r'Leap Frog')
-plt.plot(t_ab2,u_ab2,'r',linewidth=2,linestyle='-',label=r'Adams Bashforth 2nd')
+plt.plot(real_t,real_y,'k',linewidth=4,label=r'Analitical Sol.')
+plt.plot(t_rkf,u_rkf,'b',linewidth=2,label=r'Runge Kutta Fehlberg 4-5th')
+plt.plot(t_rkf,u_rkf,'b+',linewidth=2,markersize=14) #,label=r'e Kutta Fehlberg 4-5th')
+plt.plot(t_rk4,u_rk4,'r',linewidth=1,linestyle='-',label=r'Runge Kutta 4th')
 
+#plt.plot(t_lf,u_lf,'g',linewidth=2,linestyle='-',label=r'Leap Frog')
 
 
 
 plt.legend()
-plt.title (r'$\dot{y} = 10(y-1) u$',fontsize=22)
+plt.title (r'$\dot{y} = 10(t-1) y$',fontsize=22)
 plt.xlabel(r'$x$',fontsize=22)
 plt.ylabel(r'$y$',fontsize=22)
 #plt.xticks(range(0,2,0.5))
@@ -102,7 +108,7 @@ ax.yaxis.set_minor_locator(minorYLocator)
 #plt.grid()
 plt.grid(linestyle='dotted')
 plt.tight_layout(0.5)
-plt.savefig('Eq1_plots.pdf')
+plt.savefig('Eq1_RungeKutta.pdf')
 
 plt.show()
 '''
