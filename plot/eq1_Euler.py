@@ -70,7 +70,8 @@ plt.plot(t_fwdE,u_fwdE,'k',linewidth=2,linestyle='-.',label=r'Explicit Euler')
 
 
 plt.legend()
-plt.title (r'$\dot{y} = 10(t-1) y$',fontsize=22)
+plt.title (r'$\dot{y} = 10(t-1) y
+',fontsize=22)
 plt.xlabel(r'$x$',fontsize=22)
 plt.ylabel(r'$y$',fontsize=22)
 #plt.xticks(range(0,2,0.5))
