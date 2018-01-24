@@ -1,0 +1,76 @@
+## =====================================================================
+## Makefile for the eqn 001 :
+## f = 10*(t-1)*y with y0=exp(-5), t [0,2] 
+
+#-----------------------------------------------------------------------
+# declaration
+#-----------------------------------------------------------------------
+
+# compiler 
+#
+FC = gfortran
+
+# flags for debugging or maximal performance
+
+FCFLAGS = -g -fbounds-check
+FCFLAGS = -O2 
+
+# flags forall (e.g. look for system .mod files required in gfortran)
+
+FCFLAGS += -I/usr/include
+
+# executable to be built 
+#PROGRAMS = eq1 eq Euler/Euler MultiStep/MultiStep RungeKutta/RungeKutta jacobian main2
+
+PROGRAMS = main1 
+
+#eq1 eq Euler/Euler MultiStep/MultiStep RungeKutta/RungeKutta jacobian main2
+# "make" builds all 
+
+all: $(PROGRAMS)
+
+#-----------------------------------------------------------------------
+### GENERAL RULES 
+
+main1.o : eq1.o 
+main1.o : Euler/Euler.o 
+main1.o : MultiStep/MultiStep.o 
+main1.o : MultiStep/AdamsMethods/AdamsBashforth.o
+main1.o : MultiStep/AdamsMethods/AdamsMoulton.o
+main1.o : RungeKutta/RungeKutta.o
+main1.o : Jacobian/jacobian.o 
+
+
+main1: eq1.o
+main1: Euler.o
+main1: MultiStep.o
+main1: RungeKutta.o
+main1: jacobian.o 
+main1: AdamsBashforth.o
+main1: AdamsMoulton.o
+
+
+# General rule for building prog from prog.o; $^ (GNU extension) is
+# used in order to list additional object files on which the
+# executable depends
+%: %.o
+	$(FC) $(FCFLAGS) -o $@ $^ $(LDFLAGS)
+
+# General rules for building prog.o from prog.f90 or prog.F90; $< is
+# used in order to list only the first prerequisite (the source file)
+# and not the additional prerequisites such as module or include files
+%.o: %.f90
+	$(FC) $(FCFLAGS) -c $<
+
+%.o: %.F90
+	$(FC) $(FCFLAGS) -c $<
+
+# Utility targets
+.PHONY: clean veryclean
+
+clean:
+	rm -f *.o *.mod *.MOD
+
+
+
+
